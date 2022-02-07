@@ -237,10 +237,6 @@ namespace Pathoschild.Stardew.TractorMod.Framework
                 case Forest { log: not null } forest:
                     clumps = clumps.Concat(new[] { forest.log });
                     break;
-
-                case Woods woods when woods.stumps.Any():
-                    clumps = clumps.Concat(woods.stumps);
-                    break;
             }
 
             return clumps;

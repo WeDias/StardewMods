@@ -174,14 +174,14 @@ namespace Pathoschild.Stardew.CropsAnytimeAnywhere.Patches
         {
             if (tile.TileIndexProperties?.TryGetValue(name, out PropertyValue property) == true)
             {
-                string value = property?.ToString();
+                string value = property.ToString();
                 if (value != null)
                     return value;
             }
 
             if (tile.Properties?.TryGetValue(name, out property) == true)
             {
-                string value = property?.ToString();
+                string value = property.ToString();
                 if (value != null)
                     return value;
             }
