@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.FastAnimations.Framework;
 using StardewModdingAPI;
@@ -16,11 +17,8 @@ namespace Pathoschild.Stardew.FastAnimations.Handlers
         /*********
         ** Fields
         *********/
-        /// <summary>Simplifies access to private code.</summary>
-        private readonly IReflectionHelper Reflection;
-
         /// <summary>The temporary animations showing the item thrown into the air.</summary>
-        private readonly HashSet<TemporaryAnimatedSprite> ItemAnimations = new HashSet<TemporaryAnimatedSprite>();
+        private readonly HashSet<TemporaryAnimatedSprite> ItemAnimations = new();
 
         /// <summary>Whether to disable the confirmation dialogue before eating or drinking.</summary>
         private readonly bool DisableConfirmation;
@@ -30,13 +28,11 @@ namespace Pathoschild.Stardew.FastAnimations.Handlers
         ** Public methods
         *********/
         /// <summary>Construct an instance.</summary>
-        /// <param name="reflection">Simplifies access to private code.</param>
         /// <param name="multiplier">The animation speed multiplier to apply.</param>
         /// <param name="disableConfirmation">Whether to disable the confirmation dialogue before eating or drinking.</param>
-        public EatingHandler(IReflectionHelper reflection, float multiplier, bool disableConfirmation)
+        public EatingHandler(float multiplier, bool disableConfirmation)
             : base(multiplier)
         {
-            this.Reflection = reflection;
             this.DisableConfirmation = disableConfirmation;
         }
 
@@ -75,10 +71,11 @@ namespace Pathoschild.Stardew.FastAnimations.Handlers
                 int indexInAnimation = Game1.player.FarmerSprite.currentAnimationIndex;
                 if (indexInAnimation <= 1)
                     this.ItemAnimations.Clear();
-                if ((indexInAnimation == 1 || (indexInAnimation == 2 && playerAnimationID == FarmerSprite.eat)) && Game1.player.itemToEat is Object obj && obj.ParentSheetIndex != Object.stardrop)
+                if ((indexInAnimation == 1 || (indexInAnimation == 2 && playerAnimationID == FarmerSprite.eat)) && Game1.player.itemToEat is Object obj && obj.QualifiedItemID != Object.stardropQID)
                 {
-                    Rectangle sourceRect = Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, obj.ParentSheetIndex, 16, 16);
-                    TemporaryAnimatedSprite tempAnimation = Game1.player.currentLocation.TemporarySprites.LastOrDefault(p => p.Texture == Game1.objectSpriteSheet && p.sourceRect == sourceRect);
+                    Texture2D texture = Utility.GetTextureForItemID(Game1.player.itemToEat.QualifiedItemID);
+                    Rectangle sourceRect = Utility.GetSourceRectForItemID(Game1.player.itemToEat.QualifiedItemID);
+                    TemporaryAnimatedSprite tempAnimation = Game1.player.currentLocation.TemporarySprites.LastOrDefault(p => p.Texture == texture && p.sourceRect == sourceRect);
                     if (tempAnimation != null)
                         this.ItemAnimations.Add(tempAnimation);
                 }

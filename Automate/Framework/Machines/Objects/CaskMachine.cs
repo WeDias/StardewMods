@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common.Items;
 using StardewValley;
 using StardewValley.Objects;
 using SObject = StardewValley.Object;

@@ -92,7 +92,7 @@ namespace Pathoschild.Stardew.Automate.Framework
             menu.AddSectionTitle(I18n.Config_Title_Connectors);
             foreach (DataModelFloor entry in this.Data.FloorNames.Values)
             {
-                int itemId = entry.ItemId;
+                string itemId = entry.ItemId;
 
                 menu.AddCheckbox(
                     name: () => GameI18n.GetObjectName(itemId),

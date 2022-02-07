@@ -9,7 +9,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         ** Accessors
         *********/
         /// <summary>The item IDs created by the recipe.</summary>
-        public int[] Ids { get; set; }
+        public string[] Ids { get; set; }
 
         /// <summary>The minimum number of items produced by the recipe (or <c>null</c> for the default).</summary>
         public int? MinOutput { get; set; }
@@ -24,6 +24,6 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         public SObject.PreserveType? PreserveType { get; set; }
 
         /// <summary>The <see cref="StardewValley.Object.preservedParentSheetIndex"/> value to match (or <c>null</c> to ignore it).</summary>
-        public int? PreservedParentSheetIndex { get; set; }
+        public string PreservedParentSheetIndex { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Netcode;
 using Pathoschild.Stardew.Common;
-using Pathoschild.Stardew.Common.Items.ItemData;
+using Pathoschild.Stardew.Common.Items;
 using Pathoschild.Stardew.Common.Utilities;
 using Pathoschild.Stardew.TractorMod.Framework.Attachments;
 using StardewModdingAPI;
@@ -174,7 +174,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework
         /// <param name="obj">The world object.</param>
         protected bool IsTwig(SObject obj)
         {
-            return obj?.ParentSheetIndex is 294 or 295;
+            return obj?.QualifiedItemID is "(O)294" or "(O)295";
         }
 
         /// <summary>Get whether a given object is a weed.</summary>
@@ -309,7 +309,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework
                 tool: tool,
                 toolRect: new Rectangle((int)useAt.X, (int)useAt.Y, Game1.tileSize, Game1.tileSize)
             );
-            if (animal == null || animal.toolUsedForHarvest.Value != tool.BaseName || animal.currentProduce.Value <= 0 || animal.age.Value < animal.ageWhenMature.Value)
+            if (animal == null || animal.toolUsedForHarvest.Value != tool.BaseName || !CommonHelper.IsItemId(animal.currentProduce.Value, allowZero: false) || animal.age.Value < animal.ageWhenMature.Value)
                 return null;
 
             return animal;
@@ -359,7 +359,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework
             if (tileObj is BreakableContainer)
                 return tileObj.performToolAction(tool, location);
 
-            if (tileObj?.GetItemType() == ItemType.Object && tileObj.Name == "SupplyCrate" && tileObj is not Chest && tileObj.performToolAction(tool, location))
+            if (tileObj?.GetItemQualifier() == ItemType.Object && tileObj.Name == "SupplyCrate" && tileObj is not Chest && tileObj.performToolAction(tool, location))
             {
                 tileObj.performRemoveAction(tile, location);
                 Game1.currentLocation.Objects.Remove(tile);
@@ -404,7 +404,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework
             if (random.NextDouble() < (this.FoundGoldenScythe.Value ? 0.75 : 0.5))
             {
                 if (Game1.getFarm().tryToAddHay(1) == 0) // returns number left
-                    Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true, Color.LightGoldenrodYellow, new SObject(178, 1)));
+                    Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true, Color.LightGoldenrodYellow, new SObject("178", 1)));
             }
 
             return true;

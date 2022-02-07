@@ -1,4 +1,4 @@
-﻿using Pathoschild.Stardew.LookupAnything.Framework.Constants;
+using Pathoschild.Stardew.LookupAnything.Framework.Constants;
 
 namespace Pathoschild.Stardew.LookupAnything.Framework.Models
 {
@@ -11,8 +11,8 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Models
         /// <summary>The ingredient's index in the bundle.</summary>
         public int Index { get; }
 
-        /// <summary>The required item's parent sprite index (or -1 for a monetary bundle).</summary>
-        public int ItemID { get; }
+        /// <summary>The required item's qualified or unqualified item ID (or -1 for a monetary bundle).</summary>
+        public string ItemId { get; }
 
         /// <summary>The number of items required.</summary>
         public int Stack { get; }
@@ -26,13 +26,13 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Models
         *********/
         /// <summary>Construct an instance.</summary>
         /// <param name="index">The ingredient's index in the bundle.</param>
-        /// <param name="itemID">The required item's parent sprite index (or -1 for a monetary bundle).</param>
+        /// <param name="itemId">The required item's qualified or unqualified item ID (or -1 for a monetary bundle).</param>
         /// <param name="stack">The number of items required.</param>
         /// <param name="quality">The required item quality.</param>
-        public BundleIngredientModel(int index, int itemID, int stack, ItemQuality quality)
+        public BundleIngredientModel(int index, string itemId, int stack, ItemQuality quality)
         {
             this.Index = index;
-            this.ItemID = itemID;
+            this.ItemId = itemId;
             this.Stack = stack;
             this.Quality = quality;
         }

@@ -22,8 +22,8 @@ namespace Pathoschild.Stardew.ChestsAnywhere
         /*********
         ** Fields
         *********/
-        /// <summary>The item ID for auto-grabbers.</summary>
-        private readonly int AutoGrabberID = 165;
+        /// <summary>The qualified item ID for auto-grabbers.</summary>
+        private readonly string AutoGrabberID = "(O)165";
 
         /// <summary>Provides multiplayer utilities.</summary>
         private readonly IMultiplayerHelper Multiplayer;
@@ -104,7 +104,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                         }
 
                         // auto-grabbers
-                        else if (obj.ParentSheetIndex == this.AutoGrabberID && obj.heldObject.Value is Chest grabberChest)
+                        else if (obj.QualifiedItemID == this.AutoGrabberID && obj.heldObject.Value is Chest grabberChest)
                         {
                             yield return new ManagedChest(
                                 container: new AutoGrabberContainer(obj, grabberChest, context: obj, this.Reflection),
@@ -366,7 +366,7 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                     return this.GetChestInventory(chest);
 
                 // auto-grabber
-                case SObject obj when obj.ParentSheetIndex == this.AutoGrabberID:
+                case SObject obj when obj.QualifiedItemID == this.AutoGrabberID:
                     return this.GetChestInventory(obj.heldObject.Value as Chest);
 
                 // buildings

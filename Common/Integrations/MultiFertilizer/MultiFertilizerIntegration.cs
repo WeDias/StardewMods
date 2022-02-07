@@ -23,12 +23,12 @@ namespace Pathoschild.Stardew.Common.Integrations.MultiFertilizer
         /// <summary>Get the fertilizer item IDs applied to a dirt tile.</summary>
         /// <param name="dirt">The dirt tile to check.</param>
         /// <remarks>See <a href="https://github.com/spacechase0/StardewValleyMods/tree/develop/MultiFertilizer#for-mod-authors" /> for details.</remarks>
-        public IEnumerable<int> GetAppliedFertilizers(HoeDirt dirt)
+        public IEnumerable<string> GetAppliedFertilizers(HoeDirt dirt)
         {
             if (!this.IsLoaded)
                 yield break;
 
-            if (dirt.fertilizer.Value > 0)
+            if (CommonHelper.IsItemId(dirt.fertilizer.Value, allowZero: false))
                 yield return dirt.fertilizer.Value;
 
             foreach (string key in new[] { "FertilizerLevel", "SpeedGrowLevel", "WaterRetainLevel" })
@@ -52,7 +52,7 @@ namespace Pathoschild.Stardew.Common.Integrations.MultiFertilizer
                         _ => -1
                     };
                     if (fertilizer > 0)
-                        yield return fertilizer;
+                        yield return fertilizer.ToString();
                 }
             }
         }

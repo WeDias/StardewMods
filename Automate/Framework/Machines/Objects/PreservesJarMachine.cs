@@ -18,44 +18,35 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
         {
             // fruit => jelly
             new Recipe(
-                input: SObject.FruitsCategory,
+                input: SObject.FruitsCategory.ToString(),
                 inputCount: 1,
-                output: input =>
+                output: input => new SObject(Vector2.Zero, "344", input.Name + " Jelly", false, true, false, false)
                 {
-                    SObject jelly = new SObject(Vector2.Zero, 344, input.Name + " Jelly", false, true, false, false)
-                    {
-                        Price = 50 + ((SObject) input).Price * 2,
-                        name = input.Name + " Jelly",
-                        preserve = { Value = SObject.PreserveType.Jelly },
-                        preservedParentSheetIndex = { Value = input.ParentSheetIndex }
-                    };
-                    return jelly;
+                    Price = 50 + ((SObject) input).Price * 2,
+                    name = input.Name + " Jelly",
+                    preserve = { Value = SObject.PreserveType.Jelly },
+                    preservedParentSheetIndex = { Value = input.ItemID }
                 },
                 minutes: 4000
             ),
 
             // vegetable or ginger => pickled item
             new Recipe(
-                input: item => item.Category == SObject.VegetableCategory || item.ParentSheetIndex == 829,
+                input: item => item.Category == SObject.VegetableCategory || item.QualifiedItemID == "(O)829",
                 inputCount: 1,
-                output: input =>
+                output: input => new SObject(Vector2.Zero, "342", "Pickled " + input.Name, false, true, false, false)
                 {
-                    SObject item = new SObject(Vector2.Zero, 342, "Pickled " + input.Name, false, true, false, false)
-                    {
-                        Price = 50 + ((SObject) input).Price * 2,
-                        name = "Pickled " + input.Name,
-                        preserve = { Value = SObject.PreserveType.Pickle },
-                        preservedParentSheetIndex = { Value = input.ParentSheetIndex }
-                    };
-                    return item;
-
+                    Price = 50 + ((SObject) input).Price * 2,
+                    name = "Pickled " + input.Name,
+                    preserve = { Value = SObject.PreserveType.Pickle },
+                    preservedParentSheetIndex = { Value = input.ItemID }
                 },
                 minutes: _ => 4000
             ),
 
             // roe => aged roe || sturgeon roe => caviar
             new Recipe(
-                input: 812, // Roe
+                input: "(O)812", // Roe
                 inputCount: 1,
                 output: input =>
                 {
@@ -63,11 +54,11 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
                         throw new InvalidOperationException($"Unexpected recipe input: expected {typeof(SObject).FullName} instance.");
 
                     // sturgeon roe => caviar
-                    if (inputObj.preservedParentSheetIndex.Value == 698)
-                        return new SObject(445, 1);
+                    if (inputObj.preservedParentSheetIndex.Value == "698")
+                        return new SObject("445", 1);
 
                     // roe => aged roe
-                    var result = (input is ColoredObject coloredInput) ? new ColoredObject(447, 1, coloredInput.color.Value) : new SObject(447, 1);
+                    var result = input is ColoredObject coloredInput ? new ColoredObject("447", 1, coloredInput.color.Value) : new SObject("447", 1);
                     result.name = $"Aged {input.Name}";
                     result.preserve.Value = SObject.PreserveType.AgedRoe;
                     result.preservedParentSheetIndex.Value = inputObj.preservedParentSheetIndex.Value;
@@ -75,7 +66,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
                     result.Price = inputObj.Price * 2;
                     return result;
                 },
-                minutes: input => input is SObject obj && obj.preservedParentSheetIndex.Value == 698
+                minutes: input => input is SObject obj && obj.preservedParentSheetIndex.Value == "698"
                     ? 6000 // caviar
                     : 4000 // aged roe
             )

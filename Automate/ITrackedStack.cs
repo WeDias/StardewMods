@@ -12,8 +12,8 @@ namespace Pathoschild.Stardew.Automate
         /// <remarks>This should be equivalent to the underlying item (except in stack size), but *not* a reference to it.</remarks>
         Item Sample { get; }
 
-        /// <summary>The underlying item type.</summary>
-        ItemType Type { get; }
+        /// <summary>The underlying <see cref="ItemDataDefinition.Identifier"/> value for the item type.</summary>
+        string Type { get; }
 
         /// <summary>The number of items in the stack.</summary>
         int Count { get; }

@@ -7,7 +7,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         ** Accessors
         *********/
         /// <summary>The item ID.</summary>
-        public int ItemID { get; }
+        public string ItemID { get; }
 
         /// <summary>The minimum number of the item that may be requested.</summary>
         public int MinCount { get; }
@@ -23,7 +23,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         /// <param name="itemID">The item ID.</param>
         /// <param name="minCount">The minimum number of the item that may be requested.</param>
         /// <param name="maxCount">The maximum number of the item that may be requested.</param>
-        public FishPondPopulationGateQuestItemData(int itemID, int minCount, int maxCount)
+        public FishPondPopulationGateQuestItemData(string itemID, int minCount, int maxCount)
         {
             this.ItemID = itemID;
             this.MinCount = minCount;

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Pathoschild.Stardew.Automate.Framework.Storage;
 using Pathoschild.Stardew.Common;
-using StardewValley;
-using SObject = StardewValley.Object;
 
 namespace Pathoschild.Stardew.Automate.Framework
 {
@@ -94,12 +92,6 @@ namespace Pathoschild.Stardew.Automate.Framework
         }
 
         /// <inheritdoc />
-        public bool TryGetIngredient(int id, int count, out IConsumable consumable, ItemType? type = ItemType.Object)
-        {
-            return this.TryGetIngredient(item => (type == null || item.Type == type) && (item.Sample.ParentSheetIndex == id || item.Sample.Category == id), count, out consumable);
-        }
-
-        /// <inheritdoc />
         public bool TryGetIngredient(IRecipe[] recipes, out IConsumable consumable, out IRecipe recipe)
         {
             IDictionary<IRecipe, StackAccumulator> accumulator = recipes.ToDictionary(req => req, _ => new StackAccumulator());
@@ -142,12 +134,6 @@ namespace Pathoschild.Stardew.Automate.Framework
             return false;
         }
 
-        /// <inheritdoc />
-        public bool TryConsume(int itemID, int count, ItemType? type = ItemType.Object)
-        {
-            return this.TryConsume(item => (type == null || item.Type == type) && item.Sample.ParentSheetIndex == itemID, count);
-        }
-
         /****
         ** TryPush
         ****/
@@ -171,10 +157,10 @@ namespace Pathoschild.Stardew.Automate.Framework
             }
 
             // push into chests that already have this item
-            string itemKey = this.GetItemKey(item.Sample);
+            string itemKey = item.Sample.QualifiedItemID;
             foreach (IContainer container in otherContainers)
             {
-                if (container.All(p => this.GetItemKey(p.Sample) != itemKey))
+                if (container.All(p => p.Sample.QualifiedItemID != itemKey))
                     continue;
 
                 container.Store(item);
@@ -194,22 +180,6 @@ namespace Pathoschild.Stardew.Automate.Framework
             }
 
             return item.Count < originalCount;
-        }
-
-
-        /*********
-        ** Private methods
-        *********/
-        /// <summary>Get a key which uniquely identifies an item type.</summary>
-        /// <param name="item">The item to identify.</param>
-        private string GetItemKey(Item item)
-        {
-            string key = item.GetType().FullName;
-            if (item is SObject obj)
-                key += "_craftable:" + obj.bigCraftable.Value;
-            key += "_id:" + item.ParentSheetIndex;
-
-            return key;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Models
         /// <summary>The English name for the floor item.</summary>
         public string Name { get; set; }
 
-        /// <summary>The item's unique ID.</summary>
-        public int ItemId { get; set; }
+        /// <summary>The item's unqualified item ID.</summary>
+        public string ItemId { get; set; }
     }
 }

@@ -64,12 +64,12 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
                 return false;
 
             // sow seeds
-            bool sowed = dirt.plant(item.ParentSheetIndex, (int)tile.X, (int)tile.Y, player, false, location);
+            bool sowed = dirt.plant(item.ItemID, (int)tile.X, (int)tile.Y, player, false, location);
             if (sowed)
             {
                 this.ConsumeItem(player, item);
 
-                if (this.TryGetEnricher(location, tile, out Chest enricher, out Item fertilizer) && dirt.plant(fertilizer.ParentSheetIndex, (int)tile.X, (int)tile.Y, player, true, location))
+                if (this.TryGetEnricher(location, tile, out Chest enricher, out Item fertilizer) && dirt.plant(fertilizer.ItemID, (int)tile.X, (int)tile.Y, player, true, location))
                     this.ConsumeItem(enricher, fertilizer);
             }
             return sowed;
@@ -104,7 +104,7 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
             {
                 if (
                     sprinkler.IsSprinkler()
-                    && sprinkler.heldObject.Value is { ParentSheetIndex: 913 } enricherObj
+                    && sprinkler.heldObject.Value is { QualifiedItemID: "(O)913" } enricherObj
                     && enricherObj.heldObject.Value is Chest enricher
                     && sprinkler.IsInSprinklerRangeBroadphase(tile)
                     && sprinkler.GetSprinklerTiles().Contains(tile)

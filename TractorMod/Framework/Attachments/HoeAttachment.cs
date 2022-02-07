@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common.Items;
 using Pathoschild.Stardew.TractorMod.Framework.Config;
 using StardewModdingAPI;
 using StardewValley;
@@ -63,11 +64,11 @@ namespace Pathoschild.Stardew.TractorMod.Framework.Attachments
                 return this.UseToolOnTile(tool, tile, player, location);
 
             // collect artifact spots
-            if (this.Config.DigArtifactSpots && tileObj?.ParentSheetIndex == HoeAttachment.ArtifactSpotItemID)
+            if (this.Config.DigArtifactSpots && tileObj?.QualifiedItemID == $"{ItemType.Object}{HoeAttachment.ArtifactSpotItemID}")
                 return this.UseToolOnTile(tool, tile, player, location);
 
             // harvest ginger
-            if (this.Config.HarvestGinger && tileFeature is HoeDirt dirt && dirt.crop?.whichForageCrop.Value == Crop.forageCrop_ginger && dirt.crop.hitWithHoe((int)tile.X, (int)tile.Y, location, dirt))
+            if (this.Config.HarvestGinger && tileFeature is HoeDirt dirt && dirt.crop?.whichForageCrop.Value == Crop.forageCrop_ginger.ToString() && dirt.crop.hitWithHoe((int)tile.X, (int)tile.Y, location, dirt))
             {
                 dirt.destroyCrop(tile, showAnimation: false, location);
                 return true;

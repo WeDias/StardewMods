@@ -16,9 +16,9 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
         {
             // wool => cloth
             new Recipe(
-                input: 440,
+                input: "(O)440",
                 inputCount: 1,
-                output: _ => new SObject(Vector2.Zero, 428, null, false, true, false, false),
+                output: _ => new SObject(Vector2.Zero, "428", null, false, true, false, false),
                 minutes: 240
             )
         };

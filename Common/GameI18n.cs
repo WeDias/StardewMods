@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common.Items;
 using StardewValley;
-using SObject = StardewValley.Object;
 
 namespace Pathoschild.Stardew.Common
 {
@@ -14,17 +13,16 @@ namespace Pathoschild.Stardew.Common
         ** Public methods
         *********/
         /// <summary>Get the translated name for a big craftable object.</summary>
-        /// <param name="id">The big craftable's ID.</param>
-        public static string GetBigCraftableName(int id)
+        /// <param name="id">The big craftable's unqualified ID.</param>
+        public static string GetBigCraftableName(string id)
         {
             if (Game1.bigCraftablesInformation == null)
                 return "(missing translation: game hasn't loaded bigcraftable data yet)";
-            if (!Game1.bigCraftablesInformation.ContainsKey(id))
-                return $"(missing translation: no bigcraftable #{id})";
 
             try
             {
-                return new SObject(Vector2.Zero, id).DisplayName;
+                var data = Utility.GetItemDataForItemID($"{ItemType.BigCraftable}{id}");
+                return data?.displayName ?? $"(missing translation: no bigcraftable #{id})";
             }
             catch
             {
@@ -51,17 +49,16 @@ namespace Pathoschild.Stardew.Common
         }
 
         /// <summary>Get the translated name for an object.</summary>
-        /// <param name="id">The object ID.</param>
-        public static string GetObjectName(int id)
+        /// <param name="id">The object's unqualified ID.</param>
+        public static string GetObjectName(string id)
         {
             if (Game1.objectInformation == null)
                 return "(missing translation: game hasn't loaded object data yet)";
-            if (!Game1.objectInformation.ContainsKey(id))
-                return $"(missing translation: no object #{id})";
 
             try
             {
-                return new SObject(id, 1).DisplayName;
+                var data = Utility.GetItemDataForItemID($"{ItemType.Object}{id}");
+                return data?.displayName ?? $"(missing translation: no object #{id})";
             }
             catch
             {

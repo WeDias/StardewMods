@@ -120,7 +120,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.ItemScanning
             int hayCount = farm?.piecesOfHay.Value ?? 0;
             while (hayCount > 0)
             {
-                SObject hay = new SObject(178, 1);
+                SObject hay = new SObject("178", 1);
                 hay.Stack = Math.Min(hayCount, hay.maximumStackSize());
                 hayCount -= hay.Stack;
                 this.ScanAndTrack(tracked: items, itemsSeen: itemsSeen, root: hay, parent: farm);

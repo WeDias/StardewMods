@@ -79,7 +79,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.TerrainFeatures
                     yield return new GenericField(I18n.Tree_IsFertilized(), this.Stringify(false));
                 else
                 {
-                    var fertilizer = new SObject(805, 1);
+                    var fertilizer = new SObject("805", 1);
                     yield return new ItemIconField(this.GameHelper, I18n.Tree_IsFertilized(), fertilizer, this.Codex);
                 }
             }

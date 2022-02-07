@@ -9,7 +9,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         ** Accessors
         *********/
         /// <summary>The unique item IDs.</summary>
-        public int[] PossibleIds { get; set; }
+        public string[] PossibleIds { get; set; }
 
         /// <summary>The number required (or <c>null</c> for the default).</summary>
         public int? Count { get; set; }
@@ -18,6 +18,6 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         public Object.PreserveType? PreserveType { get; set; }
 
         /// <summary>The <see cref="StardewValley.Object.preservedParentSheetIndex"/> value to match (or <c>null</c> to ignore it).</summary>
-        public int? PreservedParentSheetIndex { get; set; }
+        public string PreservedItemIds { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common.Items;
 using StardewValley;
 using SObject = StardewValley.Object;
 
@@ -14,7 +15,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
         ** Fields
         *********/
         /// <summary>A lookup which maps item IDs produced by crops to their seed ID.</summary>
-        private static readonly IDictionary<int, int> SeedLookup = new Dictionary<int, int>();
+        private static readonly IDictionary<string, string> SeedLookup = new Dictionary<string, string>();
 
         /// <summary>The number of defined crops when <see cref="SeedLookup"/> was last updated.</summary>
         private static int LastCropsCount = -1;
@@ -46,14 +47,14 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
             if (input.TryGetIngredient(this.IsValidCrop, 1, out IConsumable crop))
             {
                 crop.Reduce();
-                int seedID = SeedMakerMachine.SeedLookup[crop.Sample.ParentSheetIndex];
+                string seedID = SeedMakerMachine.SeedLookup[crop.Sample.ItemID];
 
                 Random random = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int)machine.TileLocation.X + (int)machine.TileLocation.Y * 77 + Game1.timeOfDay);
                 machine.heldObject.Value = new SObject(seedID, random.Next(1, 4));
                 if (random.NextDouble() < 0.005)
-                    machine.heldObject.Value = new SObject(499, 1);
+                    machine.heldObject.Value = new SObject("499", 1);
                 else if (random.NextDouble() < 0.02)
-                    machine.heldObject.Value = new SObject(770, random.Next(1, 5));
+                    machine.heldObject.Value = new SObject("770", random.Next(1, 5));
                 machine.MinutesUntilReady = 20;
                 return true;
             }
@@ -71,9 +72,8 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
         {
             return
                 item.Type == ItemType.Object
-                && item.Sample.ParentSheetIndex != 433 // coffee beans
-                && item.Sample.ParentSheetIndex != 771 // fiber
-                && SeedMakerMachine.SeedLookup.ContainsKey(item.Sample.ParentSheetIndex);
+                && item.Sample.QualifiedItemID is not "(O)433"/* coffee beans */ or "(O)771" // fiber
+                && SeedMakerMachine.SeedLookup.ContainsKey(item.Sample.ItemID);
         }
 
         /// <summary>Update the cached item => seed ID lookup.</summary>
@@ -83,15 +83,15 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
             if (Game1.ticks > SeedMakerMachine.LastCacheTick)
             {
                 var cache = SeedMakerMachine.SeedLookup;
-                var crops = Game1.content.Load<Dictionary<int, string>>("Data\\Crops");
+                var crops = Game1.content.Load<Dictionary<string, string>>("Data\\Crops");
                 if (crops.Count != SeedMakerMachine.LastCropsCount)
                 {
                     cache.Clear();
 
-                    foreach (KeyValuePair<int, string> entry in crops)
+                    foreach (KeyValuePair<string, string> entry in crops)
                     {
-                        int seedId = entry.Key;
-                        int produceId = Convert.ToInt32(entry.Value.Split('/')[3]);
+                        string seedId = entry.Key;
+                        string produceId = entry.Value.Split('/')[3];
                         if (!cache.ContainsKey(produceId)) // use first crop found per game logic
                             cache[produceId] = seedId;
                     }

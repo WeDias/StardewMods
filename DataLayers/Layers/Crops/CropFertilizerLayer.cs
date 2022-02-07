@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.DataLayers.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
@@ -123,13 +124,13 @@ namespace Pathoschild.Stardew.DataLayers.Layers.Crops
             HoeDirt dirt = this.GetDirt(location, tile);
 
             // get applied fertilizer item IDs
-            HashSet<int> applied = null;
+            HashSet<string> applied = null;
             if (dirt is not null && !this.IsDeadCrop(dirt))
             {
                 if (this.Mods.MultiFertilizer.IsLoaded)
-                    applied = new HashSet<int>(this.Mods.MultiFertilizer.GetAppliedFertilizers(dirt));
-                else if (dirt.fertilizer.Value > 0)
-                    applied = new HashSet<int> { dirt.fertilizer.Value };
+                    applied = new HashSet<string>(this.Mods.MultiFertilizer.GetAppliedFertilizers(dirt));
+                else if (CommonHelper.IsItemId(dirt.fertilizer.Value, allowZero: false))
+                    applied = new HashSet<string> { dirt.fertilizer.Value };
             }
 
             // get fertilizer info
@@ -137,9 +138,9 @@ namespace Pathoschild.Stardew.DataLayers.Layers.Crops
                 return null;
             return new FertilizedTile(
                 tile: tile,
-                hasFertilizer: applied.Contains(HoeDirt.fertilizerLowQuality) || applied.Contains(HoeDirt.fertilizerHighQuality) || applied.Contains(HoeDirt.fertilizerDeluxeQuality),
-                hasRetainingSoil: applied.Contains(HoeDirt.waterRetentionSoil) || applied.Contains(HoeDirt.waterRetentionSoilQuality) || applied.Contains(HoeDirt.waterRetentionSoilDeluxe),
-                hasSpeedGro: applied.Contains(HoeDirt.speedGro) || applied.Contains(HoeDirt.superSpeedGro) || applied.Contains(HoeDirt.hyperSpeedGro)
+                hasFertilizer: applied.Contains(HoeDirt.fertilizerLowQuality.ToString()) || applied.Contains(HoeDirt.fertilizerHighQuality.ToString()) || applied.Contains(HoeDirt.fertilizerDeluxeQuality.ToString()),
+                hasRetainingSoil: applied.Contains(HoeDirt.waterRetentionSoil.ToString()) || applied.Contains(HoeDirt.waterRetentionSoilQuality.ToString()) || applied.Contains(HoeDirt.waterRetentionSoilDeluxe.ToString()),
+                hasSpeedGro: applied.Contains(HoeDirt.speedGro.ToString()) || applied.Contains(HoeDirt.superSpeedGro.ToString()) || applied.Contains(HoeDirt.hyperSpeedGro.ToString())
             );
         }
 

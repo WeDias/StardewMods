@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Pathoschild.Stardew.FastAnimations.Framework;
 using StardewModdingAPI;
 using StardewValley;
@@ -72,16 +73,17 @@ namespace Pathoschild.Stardew.FastAnimations.Handlers
                 return Array.Empty<TemporaryAnimatedSprite>();
 
             // get source rectangles
-            Rectangle mainSourceRect = Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, harvestedObj.ParentSheetIndex, 16, 16);
+            Texture2D texture = Utility.GetTextureForItemID(harvestedObj.QualifiedItemID);
+            Rectangle mainSourceRect = Utility.GetSourceRectForItemID(harvestedObj.QualifiedItemID);
             Rectangle? coloredSourceRect = null;
             if (harvestedObj is ColoredObject)
-                coloredSourceRect = Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, harvestedObj.ParentSheetIndex + 1, 16, 16);
+                coloredSourceRect = Utility.GetSourceRectForItemID(harvestedObj.QualifiedItemID, offset: 1);
 
             // get temporary sprites
             return player.currentLocation
                 .TemporarySprites
                 .Where(sprite =>
-                    sprite.Texture == Game1.objectSpriteSheet
+                    sprite.Texture == texture
                     && (
                         sprite.sourceRect == mainSourceRect
                         || sprite.sourceRect == coloredSourceRect

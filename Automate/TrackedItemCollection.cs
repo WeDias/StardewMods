@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pathoschild.Stardew.Common;
 using StardewValley;
 
 namespace Pathoschild.Stardew.Automate
@@ -19,14 +18,13 @@ namespace Pathoschild.Stardew.Automate
         /*********
         ** Accessors
         *********/
-        /// <summary>A sample item for comparison.</summary>
-        /// <remarks>This should be equivalent to the underlying item (except in stack size), but *not* a reference to it.</remarks>
+        /// <inheritdoc />
         public Item Sample { get; private set; }
 
-        /// <summary>The underlying item type.</summary>
-        public ItemType Type { get; private set; } = ItemType.Unknown;
+        /// <inheritdoc />
+        public string Type { get; private set; }
 
-        /// <summary>The number of items in the stack.</summary>
+        /// <inheritdoc />
         public int Count => this.Stacks.Sum(p => p.Count);
 
 
@@ -52,7 +50,7 @@ namespace Pathoschild.Stardew.Automate
             if (this.Sample == null)
             {
                 this.Sample = stack.Sample;
-                this.Type = (ItemType)this.Sample.GetItemType();
+                this.Type = this.Sample.GetItemQualifier();
             }
         }
 

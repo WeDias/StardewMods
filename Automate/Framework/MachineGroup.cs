@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.Common.Utilities;
 using StardewValley;
 using SObject = StardewValley.Object;
@@ -121,9 +122,9 @@ namespace Pathoschild.Stardew.Automate.Framework
                         error += "retrieving its output.";
                     else
                     {
-                        error += $"storing its output item #{output.Sample.ParentSheetIndex} ('{output.Sample.Name}'";
-                        if (output.Sample is SObject outputObj && outputObj.preservedParentSheetIndex.Value >= 0)
-                            error += $", preserved item #{outputObj.preservedParentSheetIndex.Value}";
+                        error += $"storing its output item {output.Sample.QualifiedItemID} ('{output.Sample.Name}'";
+                        if (output.Sample is SObject outputObj && CommonHelper.IsItemId(outputObj.preservedParentSheetIndex.Value))
+                            error += $", preserved item {outputObj.preservedParentSheetIndex.Value}";
                         error += ").";
                     }
                     error += $" Machine paused for {this.ErrorPauseMilliseconds / 1000}s.";

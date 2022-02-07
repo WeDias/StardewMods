@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Pathoschild.Stardew.Common;
 using Pathoschild.Stardew.LookupAnything.Framework.Constants;
 using Pathoschild.Stardew.LookupAnything.Framework.Models;
 using StardewValley;
@@ -24,13 +23,13 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
         public CharacterGiftTastesField(string label, IDictionary<GiftTaste, GiftTasteModel[]> giftTastes, GiftTaste showTaste, bool onlyRevealed, bool highlightUnrevealed, IDictionary<string, bool> ownedItemsCache)
             : base(label, CharacterGiftTastesField.GetText(giftTastes, showTaste, onlyRevealed, highlightUnrevealed, ownedItemsCache)) { }
 
-        /// <summary>Get a lookup cache for owned items.</summary>
+        /// <summary>Get a lookup cache for owned items indexed by <see cref="Item.QualifiedItemID"/>.</summary>
         /// <param name="gameHelper">Provides utility methods for interacting with the game code.</param>
         public static IDictionary<string, bool> GetOwnedItemsCache(GameHelper gameHelper)
         {
             return gameHelper
                 .GetAllOwnedItems()
-                .GroupBy(entry => CharacterGiftTastesField.GetOwnedItemKey(entry.Item))
+                .GroupBy(entry => entry.Item.QualifiedItemID)
                 .ToDictionary(group => group.Key, group => group.Any(p => p.IsInInventory));
         }
 
@@ -38,13 +37,6 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
         /*********
         ** Private methods
         *********/
-        /// <summary>Get an item's lookup key in the <see cref="GetOwnedItemsCache"/> lookup.</summary>
-        /// <param name="item">The item instance.</param>
-        private static string GetOwnedItemKey(Item item)
-        {
-            return $"{item.GetItemType()}:{item.ParentSheetIndex}";
-        }
-
         /// <summary>Get the text to display.</summary>
         /// <param name="giftTastes">The items by how much this NPC likes receiving them.</param>
         /// <param name="showTaste">The gift taste to show.</param>
@@ -63,7 +55,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Fields
                     from entry in giftTastes[showTaste]
                     let item = entry.Item
 
-                    let inInventory = ownedItemsCache.TryGetValue(CharacterGiftTastesField.GetOwnedItemKey(item), out bool rawVal)
+                    let inInventory = ownedItemsCache.TryGetValue(item.QualifiedItemID, out bool rawVal)
                         ? rawVal
                         : null as bool?
                     let isOwned = inInventory != null

@@ -43,7 +43,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
             SObject heldObject = machine.heldObject.Value;
             return new TrackedItem(heldObject.getOne(), _ =>
             {
-                machine.MinutesUntilReady = this.Reflection.GetMethod(machine, "getMinutesForCrystalarium").Invoke<int>(heldObject.ParentSheetIndex);
+                machine.MinutesUntilReady = this.Reflection.GetMethod(machine, "getMinutesForCrystalarium").Invoke<int>(heldObject.QualifiedItemID);
                 machine.readyForHarvest.Value = false;
             });
         }

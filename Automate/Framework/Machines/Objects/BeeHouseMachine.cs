@@ -36,7 +36,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
                 return null;
 
             // get flower data
-            int flowerId = -1;
+            string flowerId = null;
             string flowerName = null;
             int addedPrice = 0;
             Crop flower = Utility.findCloseFlower(this.Location, this.Machine.TileLocation, 5, crop => !crop.forageCrop.Value);
@@ -49,7 +49,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
             }
 
             // build object
-            SObject result = new SObject(output.ParentSheetIndex, output.Stack)
+            SObject result = new SObject(output.QualifiedItemID, output.Stack)
             {
                 name = $"{flowerName ?? "Wild"} Honey",
                 Price = output.Price + addedPrice,
@@ -76,7 +76,7 @@ namespace Pathoschild.Stardew.Automate.Framework.Machines.Objects
         {
             SObject machine = this.Machine;
 
-            machine.heldObject.Value = new SObject(Vector2.Zero, 340, null, false, true, false, false);
+            machine.heldObject.Value = new SObject(Vector2.Zero, "340", null, false, true, false, false);
             machine.MinutesUntilReady = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, 4);
             machine.readyForHarvest.Value = false;
             machine.showNextIndex.Value = false;

@@ -9,7 +9,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Models.FishData
         ** Accessors
         *********/
         /// <summary>The fish ID.</summary>
-        public int FishID { get; }
+        public string FishID { get; }
 
         /// <summary>Where the fish will spawn.</summary>
         public FishSpawnLocationData[] Locations { get; }
@@ -37,7 +37,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Models.FishData
         /// <param name="weather">The weather in which the fish will spawn.</param>
         /// <param name="minFishingLevel">The minimum fishing level.</param>
         /// <param name="isUnique">Whether the fish can only be caught once.</param>
-        public FishSpawnData(int fishID, FishSpawnLocationData[] locations, FishSpawnTimeOfDayData[] timesOfDay, FishSpawnWeather weather, int minFishingLevel, bool isUnique)
+        public FishSpawnData(string fishID, FishSpawnLocationData[] locations, FishSpawnTimeOfDayData[] timesOfDay, FishSpawnWeather weather, int minFishingLevel, bool isUnique)
         {
             this.FishID = fishID;
             this.Locations = locations;

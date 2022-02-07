@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Pathoschild.Stardew.Common;
+using Pathoschild.Stardew.Common.Items;
 using Pathoschild.Stardew.Common.Patching;
 using Pathoschild.Stardew.HorseFluteAnywhere.Framework;
 using Pathoschild.Stardew.HorseFluteAnywhere.Patches;
@@ -23,7 +24,7 @@ namespace Pathoschild.Stardew.HorseFluteAnywhere
         ** Fields
         *********/
         /// <summary>The unique item ID for a horse flute.</summary>
-        private const int HorseFluteId = 911;
+        private const string HorseFluteId = "911";
 
         /// <summary>The horse flute to play when the summon key is pressed.</summary>
         private readonly Lazy<SObject> HorseFlute = new(() => new SObject(ModEntry.HorseFluteId, 1));
@@ -329,11 +330,12 @@ namespace Pathoschild.Stardew.HorseFluteAnywhere
         /// <param name="player">The player to check.</param>
         private bool CanPlayFlute(Farmer player)
         {
+            const string id = $"{ItemType.Object}{ModEntry.HorseFluteId}";
             return
                 Context.IsPlayerFree
                 && (
                     !this.Config.RequireHorseFlute
-                    || player.Items.Any(p => Utility.IsNormalObjectAtParentSheetIndex(p, ModEntry.HorseFluteId))
+                    || player.Items.Any(p => p?.QualifiedItemID == id)
                 );
         }
 

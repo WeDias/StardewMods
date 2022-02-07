@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\GenericCommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\MultiFertilizer\MultiFertilizerIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Items\ItemType.cs" />
     <Compile Include="..\Common\Commands\GenericHelpCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ICommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonHelper.cs" />
@@ -45,8 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ProducerFrameworkMod\ProducerFrameworkRecipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\SimpleSprinkler\ISimplerSprinklerApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\SimpleSprinkler\SimpleSprinklerIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Items\ItemData\ItemType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Items\ItemData\SearchableItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Items\SearchableItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\ItemRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messages\AutomateUpdateChestMessage.cs" />

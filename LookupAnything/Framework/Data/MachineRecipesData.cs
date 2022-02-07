@@ -6,8 +6,8 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         /*********
         ** Accessors
         *********/
-        /// <summary>The machine item ID.</summary>
-        public int MachineID { get; set; }
+        /// <summary>The machine's unqualified item ID.</summary>
+        public string MachineID { get; set; }
 
         /// <summary>The machine recipes.</summary>
         public MachineRecipeData[] Recipes { get; set; }

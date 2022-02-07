@@ -19,7 +19,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Models
         public GiftTaste Taste { get; }
 
         /// <summary>Whether the player has discovered this gift taste.</summary>
-        public bool IsRevealed => Game1.player.hasGiftTasteBeenRevealed(this.Villager, this.Item.ParentSheetIndex);
+        public bool IsRevealed => Game1.player.hasGiftTasteBeenRevealed(this.Villager, this.Item.ItemID);
 
 
         /*********

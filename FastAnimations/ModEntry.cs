@@ -126,7 +126,7 @@ namespace Pathoschild.Stardew.FastAnimations
         {
             // player animations
             if (config.EatAndDrinkSpeed > 1 || config.DisableEatAndDrinkConfirmation)
-                yield return new EatingHandler(this.Helper.Reflection, config.EatAndDrinkSpeed, config.DisableEatAndDrinkConfirmation);
+                yield return new EatingHandler(config.EatAndDrinkSpeed, config.DisableEatAndDrinkConfirmation);
             if (config.FishingSpeed > 1)
                 yield return new FishingHandler(config.FishingSpeed);
             if (config.HarvestSpeed > 1)

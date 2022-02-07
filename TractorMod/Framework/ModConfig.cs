@@ -24,11 +24,11 @@ namespace Pathoschild.Stardew.TractorMod.Framework
         public int BuildPrice { get; set; } = 150000;
 
         /// <summary>The materials needed to to buy the garage.</summary>
-        public Dictionary<int, int> BuildMaterials { get; set; } = new()
+        public Dictionary<string, int> BuildMaterials { get; set; } = new()
         {
-            [Object.ironBar] = 20,
-            [Object.iridiumBar] = 5,
-            [787/* battery pack */] = 5
+            [Object.ironBar.ToString()] = 20,
+            [Object.iridiumBar.ToString()] = 5,
+            ["787"/* battery pack */] = 5
         };
 
         /// <summary>Whether the player can summon a temporary tractor without building a garage first.</summary>

@@ -6,8 +6,8 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         /*********
         ** Accessors
         *********/
-        /// <summary>The item's parent sprite index.</summary>
-        public int ItemID { get; }
+        /// <summary>The item's unqualified item ID.</summary>
+        public string ItemID { get; }
 
         /// <summary>The minimum number to drop.</summary>
         public int MinDrop { get; }
@@ -23,11 +23,11 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Data
         ** Public methods
         *********/
         /// <summary>Construct an instance.</summary>
-        /// <param name="itemID">The item's parent sprite index.</param>
+        /// <param name="itemID">The unqualified item ID.</param>
         /// <param name="minDrop">The minimum number to drop.</param>
         /// <param name="maxDrop">The maximum number to drop.</param>
         /// <param name="probability">The probability that the item will be dropped.</param>
-        public ItemDropData(int itemID, int minDrop, int maxDrop, float probability)
+        public ItemDropData(string itemID, int minDrop, int maxDrop, float probability)
         {
             this.ItemID = itemID;
             this.MinDrop = minDrop;
