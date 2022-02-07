@@ -82,6 +82,9 @@ namespace Pathoschild.Stardew.TractorMod
         /// <summary>The tractor texture to apply.</summary>
         private Texture2D TractorTexture;
 
+        /// <summary>The buff icon texture.</summary>
+        private Texture2D BuffIconTexture;
+
         /// <summary>Whether the mod is enabled for the current farmhand.</summary>
         private bool IsEnabled = true;
 
@@ -100,7 +103,7 @@ namespace Pathoschild.Stardew.TractorMod
             I18n.Init(helper.Translation);
             this.TractorManagerImpl = new(() =>
             {
-                var manager = new TractorManager(this.Config, this.Keys, this.Helper.Reflection);
+                var manager = new TractorManager(this.Config, this.Keys, this.Helper.Reflection, () => this.BuffIconTexture);
                 this.UpdateConfigFor(manager);
                 return manager;
             });
@@ -135,7 +138,8 @@ namespace Pathoschild.Stardew.TractorMod
             return
                 asset.AssetNameEquals($"Buildings/{this.BlueprintBuildingType}")
                 || asset.AssetNameEquals($"{this.PublicAssetBasePath}/Tractor")
-                || asset.AssetNameEquals($"{this.PublicAssetBasePath}/Garage");
+                || asset.AssetNameEquals($"{this.PublicAssetBasePath}/Garage")
+                || asset.AssetNameEquals($"{this.PublicAssetBasePath}/BuffIcon");
         }
 
         /// <summary>Load a matched asset.</summary>
@@ -147,7 +151,7 @@ namespace Pathoschild.Stardew.TractorMod
             if (asset.AssetNameEquals($"Buildings/{this.BlueprintBuildingType}"))
                 return (T)(object)this.GarageTexture;
 
-            // load tractor or garage texture
+            // load tractor, garage, or buff texture
             string key = PathUtilities.GetSegments(asset.AssetName).Last();
             return this.TryLoadFromFile(key, out Texture2D texture, out string error)
                 ? (T)(object)texture
@@ -234,6 +238,8 @@ namespace Pathoschild.Stardew.TractorMod
             if (!this.TryLoadFromContent("tractor", out this.TractorTexture, out string error))
                 this.Monitor.Log(error, LogLevel.Error);
             if (!this.TryLoadFromContent("garage", out this.GarageTexture, out error))
+                this.Monitor.Log(error, LogLevel.Error);
+            if (!this.TryLoadFromContent("buffIcon", out this.BuffIconTexture, out error))
                 this.Monitor.Log(error, LogLevel.Error);
 
             // init garages + tractors
