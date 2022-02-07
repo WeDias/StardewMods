@@ -193,7 +193,7 @@ namespace Pathoschild.Stardew.LookupAnything.Framework.Lookups.Buildings
                             Farm farm = Game1.getFarm();
                             int siloCount = Utility.numSilos();
                             int hayCount = farm.piecesOfHay.Value;
-                            int maxHay = Math.Max(farm.piecesOfHay.Value, siloCount * 240);
+                            int maxHay = Math.Max(farm.piecesOfHay.Value, farm.GetHayCapacity());
                             yield return new GenericField(
                                 I18n.Building_StoredHay(),
                                 siloCount == 1
