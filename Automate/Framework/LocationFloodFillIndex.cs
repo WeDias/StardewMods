@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
-using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
 namespace Pathoschild.Stardew.Automate.Framework
@@ -78,14 +77,11 @@ namespace Pathoschild.Stardew.Automate.Framework
             }
 
             // buildings
-            if (location is BuildableGameLocation buildableLocation)
+            foreach (Building building in location.buildings)
             {
-                foreach (Building building in buildableLocation.buildings)
-                {
-                    Rectangle tileArea = new Rectangle(building.tileX.Value, building.tileY.Value, building.tilesWide.Value, building.tilesHigh.Value);
-                    foreach (Vector2 tile in this.GetTilesIn(tileArea))
-                        yield return new KeyValuePair<Vector2, object>(tile, building);
-                }
+                Rectangle tileArea = new Rectangle(building.tileX.Value, building.tileY.Value, building.tilesWide.Value, building.tilesHigh.Value);
+                foreach (Vector2 tile in this.GetTilesIn(tileArea))
+                    yield return new KeyValuePair<Vector2, object>(tile, building);
             }
         }
 

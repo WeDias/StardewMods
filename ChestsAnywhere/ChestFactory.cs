@@ -148,21 +148,18 @@ namespace Pathoschild.Stardew.ChestsAnywhere
                     }
 
                     // buildings
-                    if (location is BuildableGameLocation buildableLocation)
+                    foreach (Building building in location.buildings)
                     {
-                        foreach (Building building in buildableLocation.buildings)
+                        if (building is JunimoHut hut)
                         {
-                            if (building is JunimoHut hut)
-                            {
-                                yield return new ManagedChest(
-                                    container: new JunimoHutContainer(hut, this.Reflection),
-                                    location: location,
-                                    tile: new Vector2(hut.tileX.Value, hut.tileY.Value),
-                                    mapEntity: building,
-                                    defaultDisplayName: this.GetDisambiguatedDefaultName(GameI18n.GetBuildingName("Junimo Hut"), nameCounts),
-                                    defaultCategory: category
-                                );
-                            }
+                            yield return new ManagedChest(
+                                container: new JunimoHutContainer(hut, this.Reflection),
+                                location: location,
+                                tile: new Vector2(hut.tileX.Value, hut.tileY.Value),
+                                mapEntity: building,
+                                defaultDisplayName: this.GetDisambiguatedDefaultName(GameI18n.GetBuildingName("Junimo Hut"), nameCounts),
+                                defaultCategory: category
+                            );
                         }
                     }
 

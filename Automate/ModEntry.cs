@@ -9,7 +9,6 @@ using Pathoschild.Stardew.Common.Messages;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Locations;
 
 namespace Pathoschild.Stardew.Automate
 {
@@ -211,7 +210,7 @@ namespace Pathoschild.Stardew.Automate
             if (!this.EnableAutomation)
                 return;
 
-            if (e.Location is BuildableGameLocation buildableLocation && e.Added.Concat(e.Removed).Any(building => this.MachineManager.Factory.IsAutomatable(buildableLocation, new Vector2(building.tileX.Value, building.tileY.Value), building)))
+            if (e.Added.Concat(e.Removed).Any(building => this.MachineManager.Factory.IsAutomatable(e.Location, new Vector2(building.tileX.Value, building.tileY.Value), building)))
             {
                 this.Monitor.VerboseLog($"Building list changed in {e.Location.Name}, reloading its machines.");
                 this.MachineManager.QueueReload(e.Location);

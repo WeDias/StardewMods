@@ -262,7 +262,7 @@ namespace Pathoschild.Stardew.TractorMod
             // init garages + tractors
             if (Context.IsMainPlayer)
             {
-                foreach (BuildableGameLocation location in this.GetBuildableLocations())
+                foreach (GameLocation location in this.GetLocations())
                 {
                     foreach (Stable garage in this.GetGaragesIn(location))
                     {
@@ -323,12 +323,12 @@ namespace Pathoschild.Stardew.TractorMod
                 return;
 
             // workaround for instantly-built tractors spawning a horse
-            if (Context.IsMainPlayer && e.Location is BuildableGameLocation buildableLocation)
+            if (Context.IsMainPlayer && e.Location.buildings.Any())
             {
                 Horse[] horses = e.Added.OfType<Horse>().ToArray();
                 if (horses.Any())
                 {
-                    HashSet<Guid> tractorIDs = new HashSet<Guid>(this.GetGaragesIn(buildableLocation).Select(p => p.HorseId));
+                    HashSet<Guid> tractorIDs = new HashSet<Guid>(this.GetGaragesIn(e.Location).Select(p => p.HorseId));
                     foreach (Horse horse in horses)
                     {
                         if (tractorIDs.Contains(horse.HorseId) && !TractorManager.IsTractor(horse))
@@ -393,7 +393,7 @@ namespace Pathoschild.Stardew.TractorMod
             {
                 // collect valid stable IDs
                 HashSet<Guid> validStableIDs = new HashSet<Guid>(
-                    from location in this.GetBuildableLocations()
+                    from location in this.GetLocations()
                     from garage in this.GetGaragesIn(location)
                     select garage.HorseId
                 );
@@ -631,21 +631,12 @@ namespace Pathoschild.Stardew.TractorMod
             {
                 yield return location;
 
-                if (location is BuildableGameLocation buildableLocation)
+                foreach (Building building in location.buildings)
                 {
-                    foreach (Building building in buildableLocation.buildings)
-                    {
-                        if (building.indoors.Value != null)
-                            yield return building.indoors.Value;
-                    }
+                    if (building.indoors.Value != null)
+                        yield return building.indoors.Value;
                 }
             }
-        }
-
-        /// <summary>Get all available buildable locations.</summary>
-        private IEnumerable<BuildableGameLocation> GetBuildableLocations()
-        {
-            return this.GetLocations().OfType<BuildableGameLocation>();
         }
 
         /// <summary>Get all tractors in the given location.</summary>
@@ -672,9 +663,9 @@ namespace Pathoschild.Stardew.TractorMod
         /// <param name="location">The location to scan.</param>
         private IEnumerable<Stable> GetGaragesIn(GameLocation location)
         {
-            return location is BuildableGameLocation buildableLocation
-                ? buildableLocation.buildings.OfType<Stable>().Where(this.IsGarage)
-                : Enumerable.Empty<Stable>();
+            return location.buildings
+                .OfType<Stable>()
+                .Where(this.IsGarage);
         }
 
         /// <summary>Find all horses with a given ID.</summary>

@@ -7,7 +7,6 @@ using Pathoschild.Stardew.Automate.Framework.Storage;
 using Pathoschild.Stardew.Common;
 using StardewValley;
 using StardewValley.Buildings;
-using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using SObject = StardewValley.Object;
@@ -111,7 +110,7 @@ namespace Pathoschild.Stardew.Automate.Framework
         /// <param name="location">The location to check.</param>
         /// <param name="tile">The tile to check.</param>
         /// <param name="building">The building to check.</param>
-        public bool IsAutomatable(BuildableGameLocation location, Vector2 tile, Building building)
+        public bool IsAutomatable(GameLocation location, Vector2 tile, Building building)
         {
             return this.GetEntityFor(location, tile, building) != null;
         }
@@ -237,7 +236,7 @@ namespace Pathoschild.Stardew.Automate.Framework
 
                     case Building building:
                         {
-                            IAutomatable entity = this.GetEntityFor((BuildableGameLocation)location, tile, building);
+                            IAutomatable entity = this.GetEntityFor(location, tile, building);
                             if (entity != null)
                                 return entity;
                         }
@@ -293,7 +292,7 @@ namespace Pathoschild.Stardew.Automate.Framework
         /// <param name="location">The location to search.</param>
         /// <param name="tile">The tile to search.</param>
         /// <param name="building">The building to check.</param>
-        private IAutomatable GetEntityFor(BuildableGameLocation location, Vector2 tile, Building building)
+        private IAutomatable GetEntityFor(GameLocation location, Vector2 tile, Building building)
         {
             foreach (IAutomationFactory factory in this.AutomationFactories)
             {
